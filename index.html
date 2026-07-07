@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anodyne — Player Primer</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Share+Tech+Mono&display=swap');
+
+  :root {
+    --navy:      #0D1B2A;
+    --navy-mid:  #122236;
+    --navy-card: #0F2033;
+    --purple:    #2D1B5E;
+    --purple-mid:#3D2875;
+    --gold:      #C9A84C;
+    --gold-dim:  #8A6E2F;
+    --gold-glow: #E2C16A;
+    --champagne: #F2E8D0;
+    --champagne-dim: #C8B99A;
+    --silver:    #A8B4C0;
+    --silver-dim:#6A7A88;
+    --white:     #FFFFFF;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--navy);
+    color: var(--champagne);
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.75;
+    min-height: 100vh;
+  }
+
+  /* ── STAR FIELD BACKGROUND ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 15% 20%, rgba(255,255,255,0.6) 0%, transparent 100%),
+      radial-gradient(1px 1px at 45% 8%, rgba(255,255,255,0.4) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 72% 35%, rgba(255,255,255,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 88% 15%, rgba(255,255,255,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 30% 55%, rgba(255,255,255,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 60% 70%, rgba(255,255,255,0.3) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 20% 80%, rgba(255,255,255,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 90% 60%, rgba(255,255,255,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 5% 45%, rgba(255,255,255,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 55% 90%, rgba(255,255,255,0.4) 0%, transparent 100%),
+      radial-gradient(2px 2px at 38% 28%, rgba(201,168,76,0.3) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 78% 82%, rgba(168,180,192,0.3) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── LAYOUT ── */
+  .page {
+    position: relative;
+    z-index: 1;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 2rem 6rem;
+  }
+
+  /* ── COVER ── */
+  .cover {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 4rem 2rem;
+    position: relative;
+  }
+
+  .cover-eyebrow {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: var(--silver);
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+  }
+
+  .cover-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(4rem, 12vw, 9rem);
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 0.12em;
+    line-height: 0.9;
+    text-shadow: 0 0 60px rgba(201,168,76,0.25), 0 0 120px rgba(201,168,76,0.1);
+    margin-bottom: 1.5rem;
+  }
+
+  .cover-rule {
+    width: 120px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 1.5rem auto;
+  }
+
+  .cover-subtitle {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+    font-weight: 400;
+    color: var(--champagne-dim);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+
+  .cover-tagline {
+    font-family: 'Crimson Pro', serif;
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--silver);
+    max-width: 480px;
+    margin: 1.5rem auto 0;
+    line-height: 1.7;
+  }
+
+  .cover-scroll {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: var(--silver-dim);
+    text-transform: uppercase;
+  }
+
+  /* ── SECTION STRUCTURE ── */
+  .section {
+    padding: 5rem 0 2rem;
+  }
+
+  .section-eyebrow {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.35em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+
+  h1 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 600;
+    color: var(--gold);
+    letter-spacing: 0.06em;
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+  }
+
+  .section-rule {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, var(--gold-dim), transparent);
+    margin: 1rem 0 2rem;
+  }
+
+  h2 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--gold-glow);
+    letter-spacing: 0.08em;
+    margin: 2.5rem 0 0.75rem;
+  }
+
+  h3 {
+    font-family: 'Crimson Pro', serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--champagne);
+    margin: 1.5rem 0 0.4rem;
+  }
+
+  p {
+    color: var(--champagne);
+    margin-bottom: 1rem;
+  }
+
+  em {
+    color: var(--silver);
+    font-style: italic;
+  }
+
+  /* ── PULLQUOTE ── */
+  .pullquote {
+    border-left: 2px solid var(--gold-dim);
+    margin: 2rem 0;
+    padding: 0.75rem 1.5rem;
+    background: rgba(45,27,94,0.2);
+  }
+
+  .pullquote p {
+    font-style: italic;
+    color: var(--silver);
+    font-size: 1.05rem;
+    margin: 0;
+  }
+
+  /* ── RULE BOX ── */
+  .rule-box {
+    background: rgba(45,27,94,0.3);
+    border: 1px solid var(--purple-mid);
+    border-left: 3px solid var(--gold);
+    padding: 1rem 1.25rem;
+    margin: 1.5rem 0;
+    border-radius: 2px;
+  }
+
+  .rule-box strong {
+    color: var(--gold-glow);
+    font-family: 'Cinzel', serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    display: block;
+    margin-bottom: 0.35rem;
+  }
+
+  .rule-box p {
+    margin: 0;
+    color: var(--champagne-dim);
+    font-size: 0.95rem;
+  }
+
+  /* ── FIVE RULES ── */
+  .rules-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+
+  .rules-list li {
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+  }
+
+  .rule-num {
+    font-family: 'Cinzel', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--gold);
+    opacity: 0.4;
+    line-height: 1.4;
+    flex-shrink: 0;
+    width: 1.8rem;
+  }
+
+  .rule-text {
+    color: var(--champagne);
+    padding-top: 0.1rem;
+  }
+
+  .rule-text strong {
+    color: var(--gold-glow);
+    font-family: 'Cinzel', serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    display: block;
+    margin-bottom: 0.2rem;
+  }
+
+  /* ── BULLET LISTS ── */
+  ul.styled {
+    list-style: none;
+    margin: 0.75rem 0 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  ul.styled li {
+    display: flex;
+    gap: 0.75rem;
+    color: var(--champagne);
+    font-size: 0.95rem;
+  }
+
+  ul.styled li::before {
+    content: '◆';
+    color: var(--gold-dim);
+    font-size: 0.5rem;
+    margin-top: 0.55rem;
+    flex-shrink: 0;
+  }
+
+  ul.styled li strong {
+    color: var(--gold-glow);
+  }
+
+  /* ── VESPER DISTRICTS ── */
+  .district-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+
+  .district-card {
+    background: var(--navy-card);
+    border: 1px solid rgba(201,168,76,0.15);
+    border-top: 2px solid var(--gold-dim);
+    padding: 1rem 1.125rem;
+    border-radius: 2px;
+  }
+
+  .district-card h3 {
+    font-family: 'Cinzel', serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    margin: 0 0 0.5rem;
+    text-transform: uppercase;
+  }
+
+  .district-card p {
+    font-size: 0.9rem;
+    color: var(--champagne-dim);
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  /* ── NPC CARDS ── */
+  .npc-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin: 1.5rem 0;
+  }
+
+  .npc-card {
+    background: var(--navy-card);
+    border: 1px solid rgba(168,180,192,0.1);
+    border-left: 3px solid var(--purple-mid);
+    padding: 1rem 1.25rem;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.25rem 1rem;
+    align-items: start;
+    border-radius: 2px;
+    transition: border-left-color 0.2s;
+  }
+
+  .npc-card:hover { border-left-color: var(--gold); }
+
+  .npc-name {
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    color: var(--champagne);
+    font-weight: 600;
+  }
+
+  .npc-tag {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    color: var(--silver-dim);
+    text-transform: uppercase;
+    white-space: nowrap;
+    padding-top: 0.25rem;
+  }
+
+  .npc-desc {
+    font-size: 0.9rem;
+    color: var(--champagne-dim);
+    margin: 0;
+    grid-column: 1 / -1;
+    line-height: 1.55;
+  }
+
+  /* ── PAGE DIVIDER ── */
+  .page-divider {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin: 4rem 0;
+  }
+
+  .page-divider::before,
+  .page-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-dim));
+  }
+
+  .page-divider::after {
+    background: linear-gradient(90deg, var(--gold-dim), transparent);
+  }
+
+  .page-divider span {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    color: var(--gold-dim);
+    white-space: nowrap;
+    text-transform: uppercase;
+  }
+
+  /* ── SPECIES CARDS ── */
+  .species-card {
+    background: var(--navy-card);
+    border: 1px solid rgba(201,168,76,0.1);
+    border-radius: 2px;
+    margin: 1.5rem 0;
+    overflow: hidden;
+  }
+
+  .species-header {
+    background: linear-gradient(135deg, rgba(45,27,94,0.6) 0%, rgba(13,27,42,0.8) 100%);
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .species-name {
+    font-family: 'Cinzel', serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--gold);
+    margin: 0;
+  }
+
+  .species-approval {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    color: var(--silver-dim);
+    text-transform: uppercase;
+    background: rgba(45,27,94,0.5);
+    border: 1px solid var(--purple-mid);
+    padding: 3px 8px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .species-tagline {
+    font-style: italic;
+    color: var(--silver);
+    font-size: 0.9rem;
+    margin: 0.4rem 0 0;
+  }
+
+  .species-body {
+    padding: 1.25rem 1.5rem;
+  }
+
+  .species-body p {
+    font-size: 0.95rem;
+    color: var(--champagne-dim);
+    margin-bottom: 1rem;
+  }
+
+  .species-traits {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid rgba(201,168,76,0.1);
+  }
+
+  .species-traits li {
+    display: flex;
+    gap: 0.75rem;
+    font-size: 0.88rem;
+    color: var(--silver);
+    line-height: 1.5;
+  }
+
+  .species-traits li::before {
+    content: '—';
+    color: var(--gold-dim);
+    flex-shrink: 0;
+  }
+
+  /* ── CHARACTER SENTENCE ── */
+  .char-sentence {
+    background: rgba(45,27,94,0.25);
+    border: 1px solid var(--purple-mid);
+    border-radius: 2px;
+    padding: 1.5rem;
+    text-align: center;
+    margin: 1.5rem 0;
+    font-family: 'Cinzel', serif;
+    font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+    letter-spacing: 0.05em;
+    color: var(--champagne-dim);
+  }
+
+  .char-sentence .token {
+    color: var(--gold);
+    font-weight: 600;
+  }
+
+  /* ── STAT BLOCK ── */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(201,168,76,0.1);
+    border: 1px solid rgba(201,168,76,0.1);
+    border-radius: 2px;
+    overflow: hidden;
+    margin: 1.25rem 0;
+  }
+
+  .stat-cell {
+    background: var(--navy-card);
+    padding: 1rem;
+    text-align: center;
+  }
+
+  .stat-name {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 0.35rem;
+  }
+
+  .stat-desc {
+    font-size: 0.85rem;
+    color: var(--silver);
+    line-height: 1.45;
+  }
+
+  /* ── BACKGROUND QUESTION CARDS ── */
+  .question-card {
+    background: var(--navy-card);
+    border: 1px solid rgba(168,180,192,0.1);
+    border-radius: 2px;
+    margin: 1.5rem 0;
+    overflow: hidden;
+  }
+
+  .question-header {
+    background: rgba(45,27,94,0.4);
+    border-bottom: 1px solid rgba(201,168,76,0.1);
+    padding: 0.875rem 1.25rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .question-num {
+    font-family: 'Cinzel', serif;
+    font-size: 1.5rem;
+    color: var(--gold);
+    opacity: 0.35;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .question-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    color: var(--champagne);
+    letter-spacing: 0.06em;
+  }
+
+  .question-body {
+    padding: 1.125rem 1.25rem;
+  }
+
+  .question-body p {
+    font-size: 0.95rem;
+    color: var(--champagne-dim);
+    margin-bottom: 0.75rem;
+  }
+
+  .question-body ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .question-body ul li {
+    font-size: 0.9rem;
+    color: var(--silver);
+    display: flex;
+    gap: 0.75rem;
+    line-height: 1.55;
+  }
+
+  .question-body ul li::before {
+    content: '◦';
+    color: var(--gold-dim);
+    flex-shrink: 0;
+  }
+
+  .question-body ul li strong {
+    color: var(--champagne-dim);
+  }
+
+  /* ── SESSION ZERO STEPS ── */
+  .session-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin: 1.5rem 0;
+  }
+
+  .session-step {
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+    background: var(--navy-card);
+    border: 1px solid rgba(168,180,192,0.08);
+    padding: 0.875rem 1.125rem;
+    border-radius: 2px;
+  }
+
+  .step-num {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--silver-dim);
+    background: rgba(45,27,94,0.4);
+    border: 1px solid var(--purple-mid);
+    padding: 2px 7px;
+    border-radius: 2px;
+    flex-shrink: 0;
+    margin-top: 0.15rem;
+  }
+
+  .step-text {
+    font-size: 0.95rem;
+    color: var(--champagne);
+  }
+
+  /* ── CLOSING ── */
+  .closing {
+    text-align: center;
+    padding: 4rem 0 2rem;
+    border-top: 1px solid rgba(201,168,76,0.15);
+    margin-top: 4rem;
+  }
+
+  .closing .glyph {
+    font-family: 'Cinzel', serif;
+    font-size: 2rem;
+    color: var(--gold-dim);
+    margin-bottom: 1.5rem;
+    display: block;
+  }
+
+  .closing blockquote {
+    font-style: italic;
+    color: var(--silver);
+    font-size: 1.1rem;
+    max-width: 520px;
+    margin: 0 auto 2rem;
+    line-height: 1.7;
+  }
+
+  .closing p {
+    max-width: 520px;
+    margin: 0 auto 1rem;
+    color: var(--champagne-dim);
+    font-size: 0.95rem;
+  }
+
+  .closing .final-line {
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    color: var(--gold);
+    letter-spacing: 0.08em;
+    margin-top: 2rem;
+  }
+
+  /* ── PRINT ── */
+  @media print {
+    body { background: #0D1B2A; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    body::before { display: none; }
+    .cover { min-height: auto; padding: 3rem 0 2rem; page-break-after: always; }
+    .cover-scroll { display: none; }
+    .section { page-break-inside: avoid; }
+    .species-card { page-break-inside: avoid; }
+  }
+
+  /* ── MOBILE ── */
+  @media (max-width: 600px) {
+    .page { padding: 0 1.25rem 4rem; }
+    .district-grid { grid-template-columns: 1fr; }
+    .stat-grid { grid-template-columns: 1fr; }
+    .species-header { flex-direction: column; gap: 0.5rem; }
+    h1 { font-size: 1.6rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ═══════════════════════════════════════════════════════ COVER -->
+  <div class="cover">
+    <p class="cover-eyebrow">Order of the Falcon · Vesper Field Office · Equinox</p>
+    <h1 class="cover-title">ANODYNE</h1>
+    <div class="cover-rule"></div>
+    <p class="cover-subtitle">Player Primer</p>
+    <p class="cover-subtitle" style="font-size:0.85rem; margin-top:0.25rem;">A West Marches Science Fantasy Campaign · Cypher System 2.0</p>
+    <p class="cover-tagline">This document contains everything you need to make a character and show up ready to play. It doesn't contain everything about the setting — that's for you to discover at the table.</p>
+    <p class="cover-scroll">↓ &nbsp; scroll to begin</p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ THE SETTING -->
+  <div class="section">
+    <p class="section-eyebrow">Section 01 — The Setting</p>
+    <h1>What Is Anodyne?</h1>
+    <div class="section-rule"></div>
+
+    <p>Anodyne is a science fantasy space opera — a galaxy haunted by ancient gods, shaped by extinct empires, and alive with political tension between species who are still learning to trust one another. Technology feels almost magical. Ancient relics carry genuine power. The stars hold secrets that have been kept for sixty thousand years.</p>
+    <p>The aesthetic blends the optimistic heroism of <em>Star Trek</em>, the mythic scale of <em>Mass Effect</em>, and the science-fantasy visual language of <em>Destiny</em>. It is a setting of hope amid ruins.</p>
+
+    <div class="pullquote">
+      <p>Danger and conflict are real — but Anodyne believes in cooperation, progress, and the possibility that different peoples can build something better together.</p>
+    </div>
+
+    <h2>Core Themes</h2>
+    <ul class="styled">
+      <li><strong>The Legacy of the Etrian</strong> — A vanished civilization left behind World Engines, relics, and psionic secrets that every living species is still working out what to do with.</li>
+      <li><strong>Faith vs. Rationality</strong> — Five gods are worshipped across cultures, but every species interprets them differently: literal beings, philosophical ideals, or ancient figures who ascended.</li>
+      <li><strong>Unity vs. Division</strong> — The Fellowship of Sol is a fragile experiment. The galaxy is connected by Hyperlight Relays but fractured by old wounds and deep mistrust.</li>
+      <li><strong>The Power and Danger of Psionics</strong> — Called "weaving," psionics is revered, feared, regulated, and exploited. Every culture answers the question differently.</li>
+      <li><strong>Nomads vs. Settled Powers</strong> — Wandering peoples like the Lilin exist in constant tension with empires and settled worlds.</li>
+    </ul>
+  </div>
+
+  <div class="page-divider"><span>✦</span></div>
+
+  <!-- ══════════════════════════════════════════ HOW THIS CAMPAIGN WORKS -->
+  <div class="section">
+    <p class="section-eyebrow">Section 02 — Campaign Format</p>
+    <h1>How This Campaign Works</h1>
+    <div class="section-rule"></div>
+
+    <p>Anodyne runs as a <strong style="color:var(--gold-glow)">West Marches campaign</strong> — a style of play that is deliberately different from a standard RPG campaign. Read this section carefully before making a character.</p>
+
+    <h2>The Five Rules</h2>
+    <ol class="rules-list">
+      <li>
+        <span class="rule-num">01</span>
+        <span class="rule-text"><strong>No Main Quest</strong>The world exists. You decide what to do in it. If you sit in the home base and do nothing, nothing will come to you.</span>
+      </li>
+      <li>
+        <span class="rule-num">02</span>
+        <span class="rule-text"><strong>No Fixed Party</strong>The campaign has a rotating pool of players. Not everyone plays every session. Any group of 3–4 players can form up and go — but you have to organize it yourselves.</span>
+      </li>
+      <li>
+        <span class="rule-num">03</span>
+        <span class="rule-text"><strong>The World Is Persistent</strong>What you do matters permanently. If your group clears a threat, it stays cleared. If you make an enemy, they remember. If you leave something unfinished, it will still be there — or it will have gotten worse.</span>
+      </li>
+      <li>
+        <span class="rule-num">04</span>
+        <span class="rule-text"><strong>Session Logs Are Required</strong>After every session, someone writes a brief account and posts it in the Discord. This is how the shared world gets built. Other players will read it to find leads.</span>
+      </li>
+      <li>
+        <span class="rule-num">05</span>
+        <span class="rule-text"><strong>Death Is Possible</strong>The frontier is dangerous. Go in with a plan.</span>
+      </li>
+    </ol>
+
+    <div class="rule-box">
+      <strong>Between Sessions</strong>
+      <p>Most organizational work happens in Discord. That's where you coordinate to form a group, post and read session logs, and follow up on leads. Your character is always "in Vesper" between sessions — no explanation needed.</p>
+    </div>
+  </div>
+
+  <div class="page-divider"><span>✦</span></div>
+
+  <!-- ════════════════════════════════════════════════ HOME BASE: VESPER -->
+  <div class="section">
+    <p class="section-eyebrow">Section 03 — Home Base</p>
+    <h1>Equinox & Vesper</h1>
+    <div class="section-rule"></div>
+
+    <p>Your campaign is centered on <strong style="color:var(--gold-glow)">Equinox</strong> — a tidally locked planet at the edge of Fellowship-settled space. One hemisphere bakes in permanent daylight; the other freezes in eternal night. Between them, in a narrow band of perpetual dusk, sits the city of Vesper.</p>
+    <p>By ancient treaty, Equinox is neutral territory. Every power in the galaxy maintains a presence here, but none may openly wage war within its limits. The result is a city of layered agendas, carefully observed truces, and the constant low hum of intrigue beneath a cosmopolitan surface.</p>
+
+    <div class="pullquote">
+      <p>"Every faction has an embassy in Vesper. Every faction has a knife in the dark there, too." <br><em>— Raak spacer proverb</em></p>
+    </div>
+
+    <h2>The Districts</h2>
+    <div class="district-grid">
+      <div class="district-card">
+        <h3>The Relay Quarter</h3>
+        <p>The beating heart of Vesper — the Hyperlight Relay terminal, licensed information brokers, faction embassies. First place most visitors see.</p>
+      </div>
+      <div class="district-card">
+        <h3>The Tangle</h3>
+        <p>Dense, loud, multicultural working-class district. Home to the Falcon's hall and The Drifting Ember — the adventurers' cantina where most expeditions begin.</p>
+      </div>
+      <div class="district-card">
+        <h3>Spire Row</h3>
+        <p>The wealthy district of formal embassies, psionic institutions, and high-end commerce. Clean streets, visible security, hidden agendas.</p>
+      </div>
+      <div class="district-card">
+        <h3>The Undercity</h3>
+        <p>Decommissioned tunnels colonized by those who prefer to operate without oversight. Gets more dangerous the deeper you go.</p>
+      </div>
+      <div class="district-card">
+        <h3>The Drift</h3>
+        <p>The port district — landing fields, ship repair yards, and the Lilin floating market called Mirrorwind. Always busy. Never quiet.</p>
+      </div>
+      <div class="district-card">
+        <h3>The Ring Road</h3>
+        <p>Smaller settlements stretching along the Twilight Ring, connected to Vesper by mag-rail. Good for leads closer to home.</p>
+      </div>
+    </div>
+
+    <h2>People You Already Know</h2>
+    <p>Choose one of these five figures as your NPC connection — someone your character knows before the campaign begins. This is part of character creation.</p>
+
+    <div class="npc-grid">
+      <div class="npc-card">
+        <span class="npc-name">Tava Solenne</span>
+        <span class="npc-tag">Human · Order of the Falcon</span>
+        <p class="npc-desc">Hall Commander of the Falcon's Vesper chapter. Former Fellowship military. Calm, competent, unreadable when she wants to be. Posts contracts. Never sends anyone somewhere without good reason.</p>
+      </div>
+      <div class="npc-card">
+        <span class="npc-name">Mirren Ashk</span>
+        <span class="npc-tag">Saelnos · Information Broker</span>
+        <p class="npc-desc">Licensed broker at the Clearinghouse. Precise, unhurried, gender-neutral. Charges exactly what information is worth — never more, never less. Views emotion as noise and data as the only real currency.</p>
+      </div>
+      <div class="npc-card">
+        <span class="npc-name">Garro</span>
+        <span class="npc-tag">Raak · The Drifting Ember</span>
+        <p class="npc-desc">Bartender. Horns capped in hammered iron — a clan achievement he never explains. Hears everything that passes through the Ember. Shares what he knows with people he trusts, which takes time to earn.</p>
+      </div>
+      <div class="npc-card">
+        <span class="npc-name">Veya of the Long Tide</span>
+        <span class="npc-tag">Lilin · Mirrorwind Market</span>
+        <p class="npc-desc">Ancient elder whose ship has been tethered in the Drift for thirty years. Sells relics. Reads psionic impressions. Tests everyone before sharing anything. Not what she appears.</p>
+      </div>
+      <div class="npc-card">
+        <span class="npc-name">Ironhook</span>
+        <span class="npc-tag">Raak · The Undercity</span>
+        <p class="npc-desc">Undercity fixer. Lost his right hand; replaced it with a psionic prosthetic shaped like a hook of polished black metal. Strict neutrality between all factions. Works for credits and favors, never ideology.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-divider"><span>✦</span></div>
+
+  <!-- ══════════════════════════════════════════════════════ THE SPECIES -->
+  <div class="section">
+    <p class="section-eyebrow">Section 04 — Species</p>
+    <h1>Who You Are</h1>
+    <div class="section-rule"></div>
+
+    <p>Choose one of the eight species below. <strong style="color:var(--gold-glow)">Thyr and Illithid require GM approval</strong> — bring a strong character concept and a clear reason to be working alongside others.</p>
+
+    <div class="species-card">
+      <div class="species-header">
+        <div>
+          <p class="species-name">Humans</p>
+          <p class="species-tagline">Adaptable, ambitious, and younger than everyone else at the table.</p>
+        </div>
+      </div>
+      <div class="species-body">
+        <p>Humanity's greatest strength is adaptability. The youngest major species in galactic politics, humans founded the Fellowship of Sol and have punched above their weight ever since. Short lifespans make them aggressive optimists, always building toward a future they may not live to see.</p>
+        <ul class="species-traits">
+          <li>Choose a second descriptor and add its benefits to your regular descriptor.</li>
+          <li>Trained in one skill of your choice.</li>
+          <li>No GM intrusion on rolls of 1 for improvising under pressure or adapting to new environments.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="species-card">
+      <div class="species-header">
+        <div>
+          <p class="species-name">Makhana</p>
+          <p class="species-tagline">Synthetic humanoids who fought for their freedom and built a world of their own.</p>
+        </div>
+      </div>
+      <div class="species-body">
+        <p>Originally created as synthetic servants called Fabricants — a word they now regard as a slur — the Makhana won their recognition as a sentient species and made Mercury their home. Their physiology varies widely (they were built in many configurations) but they share exceptional cognitive processing and a natural aptitude for interfacing with technology.</p>
+        <ul class="species-traits">
+          <li>Trained in tasks involving machinery, computers, or electronic systems.</li>
+          <li>No need to eat, breathe, or sleep — but must recharge for one hour every 24 hours or tasks are hindered.</li>
+          <li>Once per day, interface directly with a machine or electronic system, easing a related task by two steps.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="species-card">
+      <div class="species-header">
+        <div>
+          <p class="species-name">Saelnos</p>
+          <p class="species-tagline">The galaxy's elders — older, wiser, and the first aliens humanity ever met.</p>
+        </div>
+      </div>
+      <div class="species-body">
+        <p>Classic grey aliens, taller than humans, with pale silver skin, large dark eyes, and elongated limbs. Monogendered. Saelnos culture prizes logic above all and regards emotional displays as private matters. Their homeworld Veylith is an entire planet of crystalline data vaults and memory-spires.</p>
+        <ul class="species-traits">
+          <li>No GM intrusion on rolls of 1 for Intellect defense tasks.</li>
+          <li>Trained in two of: science, medicine, history, or identifying psionic phenomena.</li>
+          <li>Can go 72 hours without sleep without penalty.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="species-card">
+      <div class="species-header">
+        <div>
+          <p class="species-name">Nekon</p>
+          <p class="species-tagline">Proud feline humanoids whose honor culture puts everyone else's pragmatism to shame.</p>
+        </div>
+      </div>
+      <div class="species-body">
+        <p>Big cats walking upright — every pattern and color imaginable. Their culture draws on an Afrofuturist aesthetic: vibrant, technologically advanced, deeply rooted in tradition and ancestral wisdom. The Nekon Empire is slightly more advanced than the Fellowship and entirely independent from it. Honor is everything.</p>
+        <ul class="species-traits">
+          <li>No GM intrusion on rolls of 1 for athletics tasks.</li>
+          <li>Trained in perception and tracking.</li>
+          <li>+1 damage with unarmed attacks (claws).</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="species-card">
+      <div class="species-header">
+        <div>
+          <p class="species-name">Lilin</p>
+          <p class="species-tagline">Nomadic descendants of a forgotten people, carrying relics whose meaning they've lost.</p>
+        </div>
+      </div>
+      <div class="species-body">
+        <p>Alabaster to pale purple skin, white or silver hair, sharp elven features. The Lilin wander the galaxy in the Shroud Armada — a vast flotilla of ancient ships. Their ancestors were exiles who forgot why they left. They hold onto traditions whose true meaning is lost even to them. They claim allegiance to no one.</p>
+        <ul class="species-traits">
+          <li>Trained in two of: sensing, augury, or charm.</li>
+          <li>No GM intrusion on rolls of 1 for tasks involving ancient technology or lost history.</li>
+          <li>Once per session, experience a psionic flash of insight — ask the GM one yes/no question about the current situation, answered honestly.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="species-card">
+      <div class="species-header">
+        <div>
+          <p class="species-name">Raak</p>
+          <p class="species-tagline">The newest Fellowship members — horned, tailed, and still proving themselves.</p>
+        </div>
+      </div>
+      <div class="species-body">
+        <p>They look like Tieflings: horns, tails, skin of deep red, purple, or smoky grey, eyes of solid amber or violet. This appearance has no supernatural origin — it's just what they are. They evolved on Rivenholt, a storm-wracked canyon world where survival demanded cunning and ambush tactics. Their integration into the Fellowship is ongoing and sometimes tense.</p>
+        <ul class="species-traits">
+          <li>Trained in stealth and deception.</li>
+          <li>No GM intrusion on rolls of 1 for Speed defense tasks.</li>
+          <li>Reduce severity of wounds from heat and fire by one step.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="species-card">
+      <div class="species-header">
+        <div>
+          <p class="species-name">Thyr</p>
+          <p class="species-tagline">Engineered weapons of an ancient god, now a civilization unto themselves.</p>
+        </div>
+        <span class="species-approval">★ GM Approval Required</span>
+      </div>
+      <div class="species-body">
+        <p>A panoply of species — orcs, goblins, hulking brutes — created as biological weapons by an ancient figure called Ormen. Most treat this origin as myth. Their Imperium is brutal and aggressive. Playing a Thyr requires a strong character concept and a clear reason you're working with others rather than raiding them.</p>
+        <ul class="species-traits">
+          <li>Can take one more minor wound than normal.</li>
+          <li>Trained in intimidation (except against other Thyr).</li>
+          <li>+1 damage with heavy melee weapons.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="species-card">
+      <div class="species-header">
+        <div>
+          <p class="species-name">Illithid</p>
+          <p class="species-tagline">Truly alien. Universal psionics. Deeply unsettling to everyone around them.</p>
+        </div>
+        <span class="species-approval">★ GM Approval Required</span>
+      </div>
+      <div class="species-body">
+        <p>Slender, tall, elongated heads with writhing facial tentacles, indigo to pale lavender skin, black lidless eyes. They sustain themselves by consuming the neural matter of other species. Every Illithid has psionic ability. Playing one requires a very strong reason to be cooperating with other species at all.</p>
+        <ul class="species-traits">
+          <li>Communicate telepathically with any willing creature within short range without speech.</li>
+          <li>Trained in recognizing motive and psionic lore.</li>
+          <li>Once per day, attempt to briefly stun a creature within immediate range with a psychic pulse (Intellect attack; on success, target loses its next action).</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-divider"><span>✦</span></div>
+
+  <!-- ══════════════════════════════════════════════ CHARACTER CREATION -->
+  <div class="section">
+    <p class="section-eyebrow">Section 05 — Character Creation</p>
+    <h1>Building Your Character</h1>
+    <div class="section-rule"></div>
+
+    <p>Anodyne uses the <strong style="color:var(--gold-glow)">Cypher System 2.0</strong>. Character creation is fast and intuitive — you build your character with three choices that combine into a sentence.</p>
+
+    <h2>The Character Sentence</h2>
+    <div class="char-sentence">
+      I am a &nbsp;<span class="token">[Descriptor]</span>&nbsp; <span class="token">[Type]</span>&nbsp; who &nbsp;<span class="token">[Focus]</span>.
+    </div>
+
+    <h3>Descriptor — Who you are</h3>
+    <p>An adjective that modifies your Type. Examples: <em>Clever, Tough, Charming, Stealthy, Perceptive, Hardy, Graceful, Intelligent, Swift, Strong.</em></p>
+
+    <h3>Type — What you do</h3>
+    <ul class="styled">
+      <li><strong>Warrior</strong> — Combat-focused. Great at fighting, surviving, and protecting others.</li>
+      <li><strong>Adept</strong> — Psionics-focused. Great at weaving — the Anodyne term for psionic abilities.</li>
+      <li><strong>Explorer</strong> — Versatility-focused. Great at movement, perception, and handling the unexpected.</li>
+      <li><strong>Speaker</strong> — Social-focused. Great at persuasion, deception, leadership, and reading people.</li>
+    </ul>
+
+    <h3>Focus — What makes you unique</h3>
+    <p>A verb phrase that gives you a special set of abilities. Examples: <em>Bears a Halo of Fire, Commands Mental Powers, Fights with Panache, Moves Like the Wind, Works the System, Explores Dark Places.</em></p>
+
+    <div class="rule-box">
+      <strong>Example</strong>
+      <p>"I am a <em>Stealthy Explorer who Moves Like the Wind</em>" — a nimble scout who slips through dangerous territory unseen. Or: "I am a <em>Clever Adept who Commands Mental Powers</em>" — a sharp-minded psionic who relies on wit over brute force.</p>
+    </div>
+
+    <h2>The Three Stats</h2>
+    <div class="stat-grid">
+      <div class="stat-cell">
+        <span class="stat-name">Might</span>
+        <span class="stat-desc">Physical power, health, and endurance.</span>
+      </div>
+      <div class="stat-cell">
+        <span class="stat-name">Speed</span>
+        <span class="stat-desc">Quickness, agility, and fine motor control.</span>
+      </div>
+      <div class="stat-cell">
+        <span class="stat-name">Intellect</span>
+        <span class="stat-desc">Mental acuity, willpower, and psionic ability.</span>
+      </div>
+    </div>
+    <p>Distribute 6 extra points across these pools at character creation. Effort lets you spend points to improve your chances on any roll.</p>
+
+    <h2>Psionics in Anodyne</h2>
+    <p>Psionics — called <strong style="color:var(--gold-glow)">weaving</strong> — draws on five fundamental forces that underpin reality: Strong Force, Weak Force, Electromagnetism, Dark Matter, and Gravitation. Practitioners are called Weavers, and they study at one of seven schools:</p>
+    <ul class="styled">
+      <li><strong>School of Alchemy</strong> — Manipulating matter and energy to alter physical properties. The foundation of terraforming and industrial psionics. <em>(Strong Force · Weak Force)</em></li>
+      <li><strong>School of Augury</strong> — Perception beyond normal senses: clairvoyance, probability-sensing, glimpsing possible futures. <em>(Dark Matter · Electromagnetism)</em></li>
+      <li><strong>College of Creation</strong> — Manifestation and displacement of matter or energy — constructs, teleportation, psionic echoes. <em>(Strong Force · Dark Matter)</em></li>
+      <li><strong>Institute of Medicine</strong> — Life, death, and biological processes: cellular regeneration, disease cleansing, healing, and more controversial necrotic studies. <em>(Weak Force · Electromagnetism)</em></li>
+      <li><strong>School of Mentalism</strong> — Influence over thought, emotion, and consciousness: telepathy, mind shields, subtle control. <em>(Electromagnetism · Dark Matter)</em></li>
+      <li><strong>College of Perception</strong> — Alteration of sensory input: cloaking, holographic projections, sensory distortions. <em>(Electromagnetism · Dark Matter)</em></li>
+      <li><strong>War College</strong> — The martial application of psionics: energy blasts, force waves, protective barriers, battlefield control. <em>(Strong Force · Electromagnetism · Gravitation)</em></li>
+    </ul>
+    <p>Any character can potentially use psionics, but Adepts are best at it. In Vesper, licensed weaving is legal — unlicensed is a grey area.</p>
+  </div>
+
+  <div class="page-divider"><span>✦</span></div>
+
+  <!-- ═══════════════════════════════════════ CHARACTER BACKGROUND PROMPTS -->
+  <div class="section">
+    <p class="section-eyebrow">Section 06 — Background</p>
+    <h1>Character Background Prompts</h1>
+    <div class="section-rule"></div>
+
+    <p>You don't need a fully written backstory before session zero — but you should be able to answer these four questions. Bring your answers to the first session.</p>
+
+    <div class="question-card">
+      <div class="question-header">
+        <span class="question-num">01</span>
+        <span class="question-title">Why are you in Vesper?</span>
+      </div>
+      <div class="question-body">
+        <p>You arrived somewhere. How?</p>
+        <ul>
+          <li>You came on a ship — your own, someone else's, or one you booked passage on.</li>
+          <li>You grew up here — a Vesper local who has always lived in the Twilight Ring.</li>
+          <li>You were sent by a faction — the Fellowship, the Order of the Falcon, or someone else.</li>
+          <li>You're running from something — Vesper's neutral status made it the safest place to land.</li>
+          <li>You followed someone here — and that story has gotten complicated.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="question-header">
+        <span class="question-num">02</span>
+        <span class="question-title">What do you want?</span>
+      </div>
+      <div class="question-body">
+        <p>West Marches is player-driven. Your character needs a want that pulls them toward the frontier.</p>
+        <ul>
+          <li>Credits — enough to buy a ship, pay off a debt, or retire somewhere quiet.</li>
+          <li>Knowledge — something specific is out there, and you intend to find it.</li>
+          <li>Redemption — you did something, or failed to do something, and the frontier is where you work that out.</li>
+          <li>Revenge — someone took something from you. They're out here somewhere.</li>
+          <li>Belonging — you've never had a place. Maybe this crew, this city, is it.</li>
+          <li>Discovery — you want to see what no one has seen. Simple as that.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="question-header">
+        <span class="question-num">03</span>
+        <span class="question-title">Which NPC do you already know — and how?</span>
+      </div>
+      <div class="question-body">
+        <p>Before the campaign begins, your character knows one of the five Vesper anchor NPCs. Write one or two sentences about your history with them.</p>
+        <ul>
+          <li><strong>Tava Solenne</strong> — Did you serve under her? Come to her after leaving another life? Have a debt, a favor owed, or mutual respect built over time?</li>
+          <li><strong>Mirren Ashk</strong> — Are you a regular client? Did you sell them information once? Do you owe them something, or do they owe you?</li>
+          <li><strong>Garro</strong> — Did you drink at the Ember before it was cool? Did he pull you out of a fight? Has he been quietly watching out for you?</li>
+          <li><strong>Veya of the Long Tide</strong> — Did she read something in one of your relics? Did she call you by a name only she uses?</li>
+          <li><strong>Ironhook</strong> — Did he get you something no questions asked? Is the relationship friendly, professional, or complicated?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="question-card">
+      <div class="question-header">
+        <span class="question-num">04</span>
+        <span class="question-title">What can't you do alone?</span>
+      </div>
+      <div class="question-body">
+        <p>West Marches works best when characters have complementary abilities and genuine reasons to work together. Think about what your character is bad at, afraid of, or simply unable to handle solo — and be honest about it. That gap is where the rest of the crew comes in.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-divider"><span>✦</span></div>
+
+  <!-- ══════════════════════════════════════════════════ SESSION ZERO -->
+  <div class="section">
+    <p class="section-eyebrow">Section 07 — Session Zero</p>
+    <h1>What to Expect</h1>
+    <div class="section-rule"></div>
+
+    <p>Session zero is a short first meeting — no expedition, no combat. Just setup. Here's what we'll do:</p>
+
+    <div class="session-steps">
+      <div class="session-step">
+        <span class="step-num">01</span>
+        <span class="step-text">Cover the West Marches rules together so everyone's on the same page.</span>
+      </div>
+      <div class="session-step">
+        <span class="step-num">02</span>
+        <span class="step-text">Finish character creation as a group — bring your species, descriptor, type, and focus ideas; we'll lock them in together.</span>
+      </div>
+      <div class="session-step">
+        <span class="step-num">03</span>
+        <span class="step-text">Run a short scene in Vesper to establish the feel of the city and introduce the anchor NPCs.</span>
+      </div>
+      <div class="session-step">
+        <span class="step-num">04</span>
+        <span class="step-text">Get everyone set up on Discord and walk through how session scheduling works.</span>
+      </div>
+      <div class="session-step">
+        <span class="step-num">05</span>
+        <span class="step-text">End with an anonymous feedback form — a chance to share first impressions before the campaign starts.</span>
+      </div>
+    </div>
+
+    <div class="rule-box">
+      <strong>Bring to Session Zero</strong>
+      <p>Your four character background answers, your species choice, and a rough idea of your descriptor, type, and focus. You don't need everything finalized — that's what session zero is for.</p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════ CLOSING -->
+  <div class="closing">
+    <span class="glyph">✦</span>
+    <blockquote>"We did not fail. We chose. We ask only that you choose wisely when your turn comes."</blockquote>
+    <p>Anodyne is a game about choices that matter. The frontier is real, the consequences are real, and what your character does will leave a mark on a world other players will visit after you're done with it.</p>
+    <p>The galaxy has secrets it has been keeping for sixty thousand years. Some are out past the last Relay, in systems no living species has mapped. Some are in the basement of a bar in Vesper.</p>
+    <p class="final-line">Welcome to Equinox. The Drifting Ember is open. What do you want to do?</p>
+  </div>
+
+</div><!-- /page -->
+</body>
+</html>
