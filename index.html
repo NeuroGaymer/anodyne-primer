@@ -709,6 +709,25 @@
     .species-header { flex-direction: column; gap: 0.5rem; }
     h1 { font-size: 1.6rem; }
   }
+
+  /* ── QUICK LINKS ── */
+  .quick-links { display:flex; flex-wrap:wrap; gap:0.9rem; justify-content:center; margin-top:2rem; width:100%; }
+  .quick-link { flex:1 1 210px; max-width:280px; display:block; padding:0.9rem 1.1rem; background:rgba(15,32,51,0.85); border:1px solid var(--gold); border-radius:2px; text-decoration:none; text-align:left; transition:background .2s; }
+  .quick-link:hover { background:rgba(201,168,76,0.14); }
+  .quick-link .ql-title { display:block; font-family:'Cinzel',serif; font-size:0.85rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--gold); }
+  .quick-link .ql-desc { display:block; margin-top:0.3rem; font-size:0.85rem; line-height:1.4; color:var(--champagne-dim); }
+  .quick-links-end { text-align:center; padding:2.5rem 0 0.5rem; }
+  .quick-links-end .ql-heading { font-family:'Orbitron',sans-serif; font-size:10px; letter-spacing:0.35em; color:var(--gold-dim); text-transform:uppercase; }
+  .mini-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:1rem; margin:1.25rem 0 1.5rem; }
+  .mini-card { background:var(--navy-card); border:1px solid var(--purple-mid); border-radius:2px; padding:0.9rem 1.1rem; }
+  .mini-card h3 { font-family:'Cinzel',serif; font-size:0.95rem; color:var(--gold-glow); margin:0 0 0.4rem; letter-spacing:0.05em; }
+  .mini-card p { margin:0; font-size:0.92rem; line-height:1.55; }
+  .tier-dot { display:inline-block; width:0.7rem; height:0.7rem; border-radius:50%; margin-right:0.45rem; vertical-align:middle; }
+  .checklist { list-style:none; padding:0; margin:1.25rem 0; }
+  .checklist li { padding:0.6rem 0 0.6rem 2rem; position:relative; border-bottom:1px solid rgba(168,180,192,0.15); }
+  .checklist li::before { content:"☐"; position:absolute; left:0.2rem; color:var(--gold); }
+  .faq dt { font-family:'Cinzel',serif; color:var(--gold-glow); margin-top:1.1rem; font-size:0.95rem; }
+  .faq dd { margin:0.3rem 0 0; }
 </style>
 </head>
 <body>
@@ -726,9 +745,37 @@
   <div class="cover" style="min-height:auto;padding:2rem 2rem 4rem;display:flex;flex-direction:column;align-items:center;text-align:center;">
     <p class="cover-subtitle">Player Primer</p>
     <p class="cover-tagline">This document contains everything you need to make a character and show up ready to play. It doesn't contain everything about the setting — that's for you to discover at the table.</p>
-    <a href="https://drive.google.com/drive/folders/1MCgm0fZc2m4jz1E-w9HHWFMFugL3T3pS?usp=sharing" target="_blank" style="display:inline-block;margin-top:2rem;padding:0.65rem 1.75rem;background:transparent;border:1px solid var(--gold);color:var(--gold);font-family:'Cinzel',serif;font-size:0.8rem;letter-spacing:0.18em;text-transform:uppercase;text-decoration:none;border-radius:2px;" onmouseover="this.style.background='rgba(201,168,76,0.12)'" onmouseout="this.style.background='transparent'">✦ &nbsp; Player Resources</a>
+    <div class="quick-links">
+      <a class="quick-link" href="https://www.legendkeeper.com/a/cmrmjk2lm04ml41ny1qsr8g1i/saijxg6c/nubxo07n" target="_blank" rel="noopener"><span class="ql-title">✦ Anodyne Homepage</span><span class="ql-desc">The LegendKeeper wiki: setting, NPCs, locations, and the star map.</span></a>
+      <a class="quick-link" href="https://drive.google.com/drive/folders/1MCgm0fZc2m4jz1E-w9HHWFMFugL3T3pS?usp=sharing" target="_blank" rel="noopener"><span class="ql-title">✦ Player Resources</span><span class="ql-desc">Google Drive folder with player aids and the Cypher rulebooks.</span></a>
+      <a class="quick-link" href="https://mymcg.info/cyphertools" target="_blank" rel="noopener"><span class="ql-title">✦ Character Builder</span><span class="ql-desc">Monte Cook Games' Cypher Character Builder, part of the Cypher Tools suite.</span></a>
+    </div>
     <p class="cover-scroll" style="position:relative;margin-top:4rem;width:100%;text-align:center;">↓ &nbsp; scroll to begin</p>
   </div>
+
+  <!-- ═══════════════════════════════════════════════════ START HERE -->
+  <div class="section" style="padding-top:2rem;">
+    <p class="section-eyebrow">Start Here</p>
+    <h1>New to Anodyne?</h1>
+    <div class="section-rule"></div>
+
+    <p>Welcome. You don't need to read this whole primer before you play, but a quick pass will help. If you're brand new, do these five things in order:</p>
+
+    <ul class="checklist">
+      <li><strong>Skim Section 01 and 02.</strong> The setting in a nutshell, plus how a West Marches campaign works. It's different from a standard campaign, and it's the part people most often miss.</li>
+      <li><strong>Pick a species and a character sentence.</strong> Sections 04 and 05 walk you through it. Rough ideas are fine.</li>
+      <li><strong>Choose an NPC you already know.</strong> Section 03 introduces five people from Vesper; your character knows one of them.</li>
+      <li><strong>Answer the four background questions.</strong> Section 06. A sentence or two each is plenty.</li>
+      <li><strong>Join the Discord and say hello.</strong> That's where groups form, sessions get scheduled, and session logs live.</li>
+    </ul>
+
+    <div class="rule-box">
+      <strong>Not sure what to pick?</strong>
+      <p>Ask. Nobody expects you to know Cypher or the setting on day one. Tell Miles what kind of character fantasy you're after (sneaky, tough, clever, a healer, a pilot) and he'll help you land on a build.</p>
+    </div>
+  </div>
+
+  <div class="page-divider"><span>✦</span></div>
 
   <!-- ═══════════════════════════════════════════════════ THE SETTING -->
   <div class="section">
@@ -1164,9 +1211,97 @@
 
   <div class="page-divider"><span>✦</span></div>
 
+  <!-- ══════════════════════════════════════════════ HOW THE GAME PLAYS -->
+  <div class="section">
+    <p class="section-eyebrow">Section 07 — The Rules in Plain Language</p>
+    <h1>How Cypher Plays</h1>
+    <div class="section-rule"></div>
+
+    <p>Anodyne runs on the Cypher System. The short version: you describe what your character does, the GM sets how hard it is, and you roll a twenty-sided die. You don't need to memorize anything. This is enough to sit down and play.</p>
+
+    <div class="mini-grid">
+      <div class="mini-card"><h3>Rolling</h3><p>The GM rates a task from 0 to 10. Multiply by 3 and that's the number you need to meet or beat on a d20. Being trained, having the right gear, or spending Effort makes the task easier by lowering that rating. Rating 0 is automatic success with no roll.</p></div>
+      <div class="mini-card"><h3>Pools &amp; Effort</h3><p>Might, Speed, and Intellect are pools of points, and they double as your health, stamina, and mental reserves. Spend points from the matching pool to apply Effort and make a task easier. Your Edge in a stat reduces what you pay.</p></div>
+      <div class="mini-card"><h3>Only Players Roll</h3><p>The GM doesn't roll dice. When an enemy attacks you, you roll to defend. This keeps the action in your hands.</p></div>
+      <div class="mini-card"><h3>Cyphers</h3><p>Cyphers are one-use finds, like salvaged tech or strange relics, that give a powerful effect once and are then gone. Most characters can carry two. Use them freely; you'll find more.</p></div>
+      <div class="mini-card"><h3>GM Intrusions &amp; XP</h3><p>Sometimes the GM introduces a complication and offers you 2 XP. Accept it, keep 1 XP, and give 1 to another player. Or spend 1 of your own XP to refuse it. XP is how you advance.</p></div>
+      <div class="mini-card"><h3>Recoveries</h3><p>You get four recovery rolls per day (one action, ten minutes, one hour, ten hours) to restore pool points. Pool points are also how injuries hit you, so pace yourself on long expeditions.</p></div>
+    </div>
+
+    <div class="rule-box">
+      <strong>Wounds</strong>
+      <p>Damage empties your pools first. Once a pool is gone, further harm turns into wounds, and enough serious wounds can kill your character. Death is possible on the frontier, so retreating is often the smart move.</p>
+    </div>
+
+    <p>For the full rules, the Cypher Character Rulebook is in the Player Resources folder. Section 05 of this primer covers building a character in detail.</p>
+  </div>
+
+  <div class="page-divider"><span>✦</span></div>
+
+  <!-- ══════════════════════════════════════════════ LIFE ON THE FRONTIER -->
+  <div class="section">
+    <p class="section-eyebrow">Section 08 — Life on the Frontier</p>
+    <h1>Contracts, Ships &amp; Rewards</h1>
+    <div class="section-rule"></div>
+
+    <h2>Finding Work</h2>
+    <p>Jobs come through the contract board at The Drifting Ember and the Clearinghouse. Postings are also shared in Discord, written in-world. Pick one that interests you, gather a crew of three or four, and go. Nobody assigns you a mission.</p>
+
+    <h2>Danger Tiers</h2>
+    <p>Each contract is rated by how far out it takes you. Read the posting and choose your risks.</p>
+    <div class="mini-grid">
+      <div class="mini-card"><h3><span class="tier-dot" style="background:#2FA98C;"></span>Tier 1</h3><p>Near the frontier. A good place for new characters to learn how the game flows.</p></div>
+      <div class="mini-card"><h3><span class="tier-dot" style="background:#D9982B;"></span>Tier 2</h3><p>Mid-frontier. Real threats, better rewards. Come prepared.</p></div>
+      <div class="mini-card"><h3><span class="tier-dot" style="background:#D9603F;"></span>Tier 3</h3><p>Deep frontier. Dangerous and far from help. Bring a plan and a strong crew.</p></div>
+    </div>
+
+    <h2>The Frontier Map</h2>
+    <p>Seventeen systems fan out from Equinox along four arms: the <strong>Goldroad</strong>, the <strong>Long Dark</strong>, the <strong>Ashward</strong>, and the <strong>Veilward</strong>. The LegendKeeper homepage has the star map and a page for each place.</p>
+
+    <h2>The Vesper Runner</h2>
+    <p>Your crew flies the <em>Vesper Runner</em>, a light corvette with a deadpan ship AI named Compass. There are two ways to travel. <strong>Hyperlight relay travel</strong> is fast and free, but only along relay routes. The <strong>onboard hyperlight drive</strong> is slower and uses resources, but it works anywhere, including systems off the relay network.</p>
+
+    <h2>Credits, Resource Points &amp; Loot</h2>
+    <p>Anodyne tracks rewards in three separate ways, and there is no bookkeeping for money:</p>
+    <ul>
+      <li><strong>Credits</strong> are story only. Contracts pay "well" or "barely enough for fuel," but you never track a number, and everyday costs are assumed covered.</li>
+      <li><strong>Resource Points (RP)</strong> are the mechanical currency. You spend them between missions on things like crafting, repairs, research, and making contacts.</li>
+      <li><strong>Loot</strong> is cyphers, artifacts, oddities, and gear. You find it on contracts and it isn't bought with credits or RP.</li>
+    </ul>
+
+    <h2>Your Session Log</h2>
+    <p>After each run, someone posts a short account in the Discord Forum channel. Title it <em>[System] Contract Name — Crew/Ship</em>, and apply the System/Location, Contract Tier, and Outcome tags when you post. Miles adds his own tags afterward. Read the logs before you plan a run, since other crews' discoveries may be leads for you.</p>
+  </div>
+
+  <div class="page-divider"><span>✦</span></div>
+
+  <!-- ══════════════════════════════════════════════ FAQ -->
+  <div class="section">
+    <p class="section-eyebrow">Section 09 — Questions New Players Ask</p>
+    <h1>Quick Answers</h1>
+    <div class="section-rule"></div>
+
+    <dl class="faq">
+      <dt>Do I need to know Cypher or the setting first?</dt>
+      <dd>No. The primer and the Player Resources folder cover what you need, and the table is happy to answer questions mid-game.</dd>
+      <dt>What if I can't make every session?</dt>
+      <dd>That's how West Marches works. The player pool rotates, and your character simply waits in Vesper until you're back.</dd>
+      <dt>What if nobody has posted a run I want to join?</dt>
+      <dd>Post one yourself in Discord. Pick a contract, say when you'd like to go, and see who signs on.</dd>
+      <dt>Can I play a character who isn't a fighter?</dt>
+      <dd>Yes. Diplomats, Medics, Nobles, Traders, and Techs all have plenty to do. Every type gets moments to shine, in and out of combat.</dd>
+      <dt>Is the Character Builder required?</dt>
+      <dd>No, but it helps. It's handy for tracking your pools and abilities and can print or export a character sheet. Anodyne's species are custom, so write your species traits in your notes and check your build with Miles.</dd>
+      <dt>What do I bring to the table?</dt>
+      <dd>A character sheet (or the builder), a d20, and a couple of d6s for recoveries. Bring questions too.</dd>
+    </dl>
+  </div>
+
+  <div class="page-divider"><span>✦</span></div>
+
   <!-- ══════════════════════════════════════════════════ SESSION ZERO -->
   <div class="section">
-    <p class="section-eyebrow">Section 07 — Session Zero</p>
+    <p class="section-eyebrow">Section 10 — Session Zero</p>
     <h1>What to Expect</h1>
     <div class="section-rule"></div>
 
@@ -1199,6 +1334,11 @@
       <strong>Bring to Session Zero</strong>
       <p>Your four character background answers, your species choice, and a rough idea of your descriptor, type, and focus. You don't need everything finalized — that's what session zero is for.</p>
     </div>
+
+    <div class="rule-box">
+      <strong>Joining a Campaign That's Already Running?</strong>
+      <p>Same idea. Bring the same things, let Miles know in Discord, and he'll help you get set up and into your first run.</p>
+    </div>
   </div>
 
   <!-- ══════════════════════════════════════════════════════ CLOSING -->
@@ -1208,6 +1348,14 @@
     <p>Anodyne is a game about choices that matter. The frontier is real, the consequences are real, and what your character does will leave a mark on a world other players will visit after you're done with it.</p>
     <p>The galaxy has secrets it has been keeping for sixty thousand years. Some are out past the last Relay, in systems no living species has mapped. Some are in the basement of a bar in Vesper.</p>
     <p class="final-line">Welcome to Equinox. The Drifting Ember is open. What do you want to do?</p>
+    <div class="quick-links-end">
+      <p class="ql-heading">Jump Back In</p>
+      <div class="quick-links">
+      <a class="quick-link" href="https://www.legendkeeper.com/a/cmrmjk2lm04ml41ny1qsr8g1i/saijxg6c/nubxo07n" target="_blank" rel="noopener"><span class="ql-title">✦ Anodyne Homepage</span><span class="ql-desc">The LegendKeeper wiki: setting, NPCs, locations, and the star map.</span></a>
+      <a class="quick-link" href="https://drive.google.com/drive/folders/1MCgm0fZc2m4jz1E-w9HHWFMFugL3T3pS?usp=sharing" target="_blank" rel="noopener"><span class="ql-title">✦ Player Resources</span><span class="ql-desc">Google Drive folder with player aids and the Cypher rulebooks.</span></a>
+      <a class="quick-link" href="https://mymcg.info/cyphertools" target="_blank" rel="noopener"><span class="ql-title">✦ Character Builder</span><span class="ql-desc">Monte Cook Games' Cypher Character Builder, part of the Cypher Tools suite.</span></a>
+    </div>
+    </div>
   </div>
 
 </div><!-- /page -->
