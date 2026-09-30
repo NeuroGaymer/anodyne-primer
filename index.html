@@ -728,6 +728,17 @@
   .checklist li::before { content:"☐"; position:absolute; left:0.2rem; color:var(--gold); }
   .faq dt { font-family:'Cinzel',serif; color:var(--gold-glow); margin-top:1.1rem; font-size:0.95rem; }
   .faq dd { margin:0.3rem 0 0; }
+
+  /* ── NPC PORTRAITS ── */
+  .npc-card.has-portrait { grid-template-columns: 96px 1fr auto; column-gap: 1.1rem; }
+  .npc-portrait { grid-row: 1 / span 2; width: 96px; height: 128px; object-fit: cover; object-position: center top; border: 1px solid var(--gold-dim); border-radius: 2px; display: block; }
+  .npc-card.has-portrait .npc-desc { grid-column: 2 / -1; }
+  @media (max-width: 600px) {
+    .npc-card.has-portrait { grid-template-columns: 80px 1fr; }
+    .npc-portrait { width: 80px; height: 107px; grid-row: 1 / span 3; }
+    .npc-card.has-portrait .npc-tag { grid-column: 2; white-space: normal; }
+    .npc-card.has-portrait .npc-desc { grid-column: 2; }
+  }
 </style>
 </head>
 <body>
@@ -887,27 +898,32 @@
     <p>Choose one of these five figures as your NPC connection — someone your character knows before the campaign begins. This is part of character creation.</p>
 
     <div class="npc-grid">
-      <div class="npc-card">
+      <div class="npc-card has-portrait">
+        <img class="npc-portrait" src="images/npcs/tava-solenne.jpg" alt="Portrait of Tava Solenne, Hall Commander of the Order of the Falcon" loading="lazy" width="96" height="128">
         <span class="npc-name">Tava Solenne</span>
         <span class="npc-tag">Human · Order of the Falcon</span>
         <p class="npc-desc">Hall Commander of the Falcon's Vesper chapter. Former Fellowship military. Calm, competent, unreadable when she wants to be. Posts contracts. Never sends anyone somewhere without good reason.</p>
       </div>
-      <div class="npc-card">
+      <div class="npc-card has-portrait">
+        <img class="npc-portrait" src="images/npcs/mirren-ashk.jpg" alt="Portrait of Mirren Ashk, Saelnos information broker" loading="lazy" width="96" height="128">
         <span class="npc-name">Mirren Ashk</span>
         <span class="npc-tag">Saelnos · Information Broker</span>
         <p class="npc-desc">Licensed broker at the Clearinghouse. Precise, unhurried, gender-neutral. Charges exactly what information is worth — never more, never less. Views emotion as noise and data as the only real currency.</p>
       </div>
-      <div class="npc-card">
+      <div class="npc-card has-portrait">
+        <img class="npc-portrait" src="images/npcs/garro.jpg" alt="Portrait of Garro, Raak bartender of The Drifting Ember" loading="lazy" width="96" height="128">
         <span class="npc-name">Garro</span>
         <span class="npc-tag">Raak · The Drifting Ember</span>
         <p class="npc-desc">Bartender. Horns capped in hammered iron — a clan achievement he never explains. Hears everything that passes through the Ember. Shares what he knows with people he trusts, which takes time to earn.</p>
       </div>
-      <div class="npc-card">
+      <div class="npc-card has-portrait">
+        <img class="npc-portrait" src="images/npcs/veya.jpg" alt="Portrait of Veya of the Long Tide, Lilin elder" loading="lazy" width="96" height="128">
         <span class="npc-name">Veya of the Long Tide</span>
         <span class="npc-tag">Lilin · Mirrorwind Market</span>
         <p class="npc-desc">Ancient elder whose ship has been tethered in the Drift for thirty years. Sells relics. Reads psionic impressions. Tests everyone before sharing anything. Not what she appears.</p>
       </div>
-      <div class="npc-card">
+      <div class="npc-card has-portrait">
+        <img class="npc-portrait" src="images/npcs/ironhook.jpg" alt="Portrait of Ironhook, Undercity fixer" loading="lazy" width="96" height="128">
         <span class="npc-name">Ironhook</span>
         <span class="npc-tag">Raak · The Undercity</span>
         <p class="npc-desc">Undercity fixer. Lost his right hand; replaced it with a psionic prosthetic shaped like a hook of polished black metal. Strict neutrality between all factions. Works for credits and favors, never ideology.</p>
@@ -923,7 +939,7 @@
     <h1>Who You Are</h1>
     <div class="section-rule"></div>
 
-    <p>Choose one of the eight species below. <strong style="color:var(--gold-glow)">Thyr and Illithid require GM approval</strong> — bring a strong character concept and a clear reason to be working alongside others.</p>
+    <p>Choose one of the six species below.</p>
 
     <div class="species-card">
       <div class="species-header">
@@ -1027,41 +1043,6 @@
       </div>
     </div>
 
-    <div class="species-card">
-      <div class="species-header">
-        <div>
-          <p class="species-name">Thyr</p>
-          <p class="species-tagline">Engineered weapons of an ancient god, now a civilization unto themselves.</p>
-        </div>
-        <span class="species-approval">★ GM Approval Required</span>
-      </div>
-      <div class="species-body">
-        <p>A panoply of species — orcs, goblins, hulking brutes — created as biological weapons by an ancient figure called Ormen. Most treat this origin as myth. Their Imperium is brutal and aggressive. Playing a Thyr requires a strong character concept and a clear reason you're working with others rather than raiding them.</p>
-        <ul class="species-traits">
-          <li>Can take one more minor wound than normal.</li>
-          <li>Trained in intimidation (except against other Thyr).</li>
-          <li>+1 damage with heavy melee weapons.</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="species-card">
-      <div class="species-header">
-        <div>
-          <p class="species-name">Illithid</p>
-          <p class="species-tagline">Truly alien. Universal psionics. Deeply unsettling to everyone around them.</p>
-        </div>
-        <span class="species-approval">★ GM Approval Required</span>
-      </div>
-      <div class="species-body">
-        <p>Slender, tall, elongated heads with writhing facial tentacles, indigo to pale lavender skin, black lidless eyes. They sustain themselves by consuming the neural matter of other species. Every Illithid has psionic ability. Playing one requires a very strong reason to be cooperating with other species at all.</p>
-        <ul class="species-traits">
-          <li>Communicate telepathically with any willing creature within short range without speech.</li>
-          <li>Trained in recognizing motive and psionic lore.</li>
-          <li>Once per day, attempt to briefly stun a creature within immediate range with a psychic pulse (Intellect attack; on success, target loses its next action).</li>
-        </ul>
-      </div>
-    </div>
   </div>
 
   <div class="page-divider"><span>✦</span></div>
